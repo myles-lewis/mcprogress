@@ -1,0 +1,16 @@
+Package: pmclapply
+Title: Add a progress bar to mclapply
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Myles",family = "Lewis",
+    role = c("aut", "cre"),
+    email = "myles.lewis@qmul.ac.uk",
+    comment = c(ORCID = "0000-0001-9365-5345")))
+Description: Lightweight package which acts as a wrapper around mclapply and adds a progress bar to it in Rstudio environment.
+License: GPL (>= 3)
+Encoding: UTF-8
+Imports:
+    parallel,
+    rstudioapi
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
