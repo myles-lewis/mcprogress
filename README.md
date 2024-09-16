@@ -1,4 +1,4 @@
-# pmclapply
+# mcprogress
 
 Adds a progress bar to `mclapply()` using `echo` to output to the console in 
 Rstudio. Simply replace your original call to `mclapply()` with `pmclapply()`.
@@ -7,5 +7,5 @@ Rstudio. Simply replace your original call to `mclapply()` with `pmclapply()`.
 
 Install from Github
 ```
-devtools::install_github("myles-lewis/pmclapply")
+devtools::install_github("myles-lewis/mcprogress")
 ```
