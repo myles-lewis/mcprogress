@@ -93,7 +93,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   # standard
   p <- paste(c(title, sp, "|", rep.int("=", nb), rep.int(" ", width - nb),
                sprintf("| %3d%%", pc)), collapse = "")
-  if (Sys.getenv("RSTUDIO") == "1" && rstudioapi::isAvailable()) {
+  if (checkenv() && rstudioapi::isAvailable()) {
     if (rstudioapi::getThemeInfo()$dark) {
       # colour
       p <- paste(c("\\x1b[37m", title, sp, "|\\x1b[36m", rep.int("=", nb),
@@ -124,17 +124,17 @@ mcSpinner <- function(val, title) {
 
 # prints using shell echo from inside mclapply when run in Rstudio
 cat_parallel <- function(...) {
-  if (Sys.getenv("RSTUDIO") != "1") return()
+  if (!checkenv()) return()
   system(sprintf('echo "%s', paste0(..., '\\c"', collapse = "")))
 }
 
 message_parallel <- function(...) {
-  if (Sys.getenv("RSTUDIO") != "1") return()
+  if (!checkenv()) return()
   system(sprintf('echo "%s"', paste0(..., collapse = "")))
 }
 
 over_parallel <- function(...) {
-  if (Sys.getenv("RSTUDIO") != "1") return()
+  if (!checkenv()) return()
   p <- paste0('\\r', ..., '\\c"', collapse = "")
   system(sprintf('echo "%s', p))
 }
@@ -142,4 +142,10 @@ over_parallel <- function(...) {
 stop_parallel <- function(...) {
   message_parallel('\\n', ...)
   stop()
+}
+
+
+# returns TRUE if in Rstudio
+checkenv <- function() {
+  Sys.getenv("RSTUDIO") == "1"
 }
