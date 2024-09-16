@@ -50,6 +50,13 @@ A list of the same length as \code{X} and named by \code{X}.
 \code{pmclapply} adds a progress bar to \code{\link[=mclapply]{mclapply()}} in Rstudio environment using
 output to the console. It is designed to add very little overhead.
 }
+\examples{
+res <- pmclapply(letters[1:20], function(i) {
+                 Sys.sleep(0.2 + runif(1) * 0.1)
+                 setNames(rnorm(5), paste0(i, 1:5))
+                 }, mc.cores = 2, title = "Working")
+
+}
 \seealso{
 \code{\link[=mclapply]{mclapply()}}
 }
