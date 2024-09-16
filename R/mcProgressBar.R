@@ -1,17 +1,68 @@
 
-## Example
-# cores <- 4
-# my_fun <- function() {
-#   start <- Sys.time()
-#   out <- mclapply(1:20, function(x) {
-#     mcProgressBar(x, 20, cores, "Calculating")
-#     Sys.sleep(0.5 + runif(1))
-#     rnorm(1e4)
-#   }, mc.cores = cores)
-#   closeProgress(start, "Calculating")
-#   out
-# }
-# x <- my_fun()
+#' Show progress bar during parallel processing 
+#' 
+#' Uses Rstudio console to safely output a progress bar during parallel
+#' processing.
+#' 
+#' This package provides 2 main methods to show progress during parallelised
+#' code using [mclapply()]. If `X` (the list object looped over in a call to
+#' `mclapply`) has many elements compared to the number of cores, then it is
+#' easiest to use [pmclapply()]. However, in some use cases the length of `X` is
+#' comparable to the number of cores and each process may take a long time. For
+#' example, machine learning applied to each of 8 folds on an 8-core machine
+#' will open 8 processes from the outset. Each process will often complete at
+#' roughly the same time. In this case `pmclapply` is much less informative as
+#' it only shows completion at the end of 1 round of processes so it will go
+#' from 0% to 100%. In this example, if each process code is long and
+#' subprogress can be reported along the way, for example during nested loops,
+#' then `mcProgressBar` provides a way to show the subprogress during the inner
+#' loop. The example below shows how to write code involving an outer call to
+#' `mclapply` and an inner loop whose subprogress is tracked via calls to
+#' `mcProgressBar`.
+#' 
+#' Technically only 1 process can be tracked. If `cores` is set to 4 and
+#' `subval` is invoked, then the 1st, 5th, 9th, 13th etc process is tracked.
+#' Subprogress of this process is computed as part of the number of blocks of
+#' processes required.
+#'
+#' @param val Integer measuring progress
+#' @param len Total number of processes to be executed overall.
+#' @param cores Number of cores used for parallel processing.
+#' @param subval Optional subvalue ranging from 0 to 1 to enable granularity
+#'   during long processes. Especially useful if `len` is small relative to
+#'   `cores`.
+#' @param title Optional title for the progress bar.
+#' @param spinner Logical whether to show a spinner which moves when each core
+#'   completes a process. Not shown if `subval` is used.
+#' @param start Used to pass the system time from the start of the call to show
+#'   a total time elapsed. See the example below.
+#' @returns No return value. Prints a progress bar to the console if called
+#'   within the Rstudio environment.
+#' @seealso [pmclapply()] [mclapply()]
+#' @examples
+#' ## Example function with mclapply wrapped around another nested function
+#' library(parallel)
+#'
+#' my_fun <- function(x, cores) {
+#'   start <- Sys.time()
+#'   mcProgressBar(val = 0, title = "my_fun")  # initialise progress bar
+#'   res <- mclapply(seq_along(x), function(i) {
+#'     # inner loop of calculation
+#'     y <- 1:5
+#'     inner <- lapply(seq_along(y), function(j) {
+#'       Sys.sleep(0.3 + runif(1) * 0.2)
+#'       mcProgressBar(val = i, len = length(x), cores, subval = j / length(y),
+#'                     title = "my_fun")
+#'       rnorm(4)
+#'     })
+#'     inner
+#'   }, mc.cores = cores)
+#'   closeProgress(start, title = "my_fun")  # finalise the progress bar
+#'   res
+#' }
+#' res <- my_fun(letters[1:4], cores = 2)
+#'
+#' @export
 
 mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
                           spinner = TRUE) {
@@ -53,17 +104,22 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   over_parallel(p)
 }
 
+#' @rdname mcProgressBar
+#' @export
+closeProgress <- function(start = NULL, title = "") {
+  end <- Sys.time()
+  mcProgressBar(1, title = title)
+  if (!is.null(start)) {
+    message_parallel("  (", format(end - start, digits = 3), ")")
+  }
+}
+
+
 mcSpinner <- function(val, title) {
   i <- val %% 4 +1
   sp <- c("/", "-", "\\\ ", "|")[i]
   if (title != "") title <- paste0(title, " ")
   over_parallel(title, sp)
-}
-
-closeProgress <- function(start, title = "") {
-  end <- Sys.time()
-  mcProgressBar(1, title = title)
-  message_parallel("  (", format(end - start, digits = 3), ")")
 }
 
 # prints using shell echo from inside mclapply when run in Rstudio

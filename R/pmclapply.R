@@ -4,6 +4,24 @@
 #' `pmclapply` adds a progress bar to [mclapply()] in Rstudio environment using
 #' output to the console. It is designed to add very little overhead.
 #' 
+#' This function can be used in an identical manner to [mclapply()]. It is ideal
+#' for use if the length of `X` is comparably > cores. As processes are spawned
+#' in a block and most code for each process completes at roughly the same time,
+#' processes move along in blocks as determined by `mc.cores`. To track
+#' progress, `pmclapply` only tracks the nth process, where n=`mc.cores`. For
+#' example, with 4 cores, `pmclapply` reports progress when the 4th, 8th, 12th,
+#' 16th etc process has completed.
+#' 
+#' However, in some scenarios the length of `X` is comparable to the number of
+#' cores and each process may take a long time. For example, machine learning
+#' applied to each of 8 folds on an 8-core machine will open 8 processes from
+#' the outset. Each process will often complete at roughly the same time. In
+#' this case `pmclapply` is much less informative as it only shows completion at
+#' the end of 1 round of processes, so it will go from 0% to 100%. For this
+#' scenario, we recommend users use [mcProgressBar()] which allows more
+#' fine-grained reporting of subprogress from within a block of parallel
+#' processes.
+#' 
 #' @param X a vector (atomic or list) or an expressions vector. Other objects
 #'   (including classed objects) will be coerced by `as.list`.
 #' @param FUN the function to be applied via [mclapply()] to each element of `X`
@@ -20,7 +38,7 @@
 #' @param mc.preschedule,mc.set.seed,mc.silent,mc.cleanup,mc.allow.recursive,affinity.list
 #'   See [mclapply()].
 #' @return A list of the same length as `X` and named by `X`.
-#' @seealso [mclapply()]
+#' @seealso [mclapply()] [mcProgressBar()]
 #' @examples
 #' res <- pmclapply(letters[1:20], function(i) {
 #'                  Sys.sleep(0.2 + runif(1) * 0.1)

@@ -50,6 +50,25 @@ A list of the same length as \code{X} and named by \code{X}.
 \code{pmclapply} adds a progress bar to \code{\link[=mclapply]{mclapply()}} in Rstudio environment using
 output to the console. It is designed to add very little overhead.
 }
+\details{
+This function can be used in an identical manner to \code{\link[=mclapply]{mclapply()}}. It is ideal
+for use if the length of \code{X} is comparably > cores. As processes are spawned
+in a block and most code for each process completes at roughly the same time,
+processes move along in blocks as determined by \code{mc.cores}. To track
+progress, \code{pmclapply} only tracks the nth process, where n=\code{mc.cores}. For
+example, with 4 cores, \code{pmclapply} reports progress when the 4th, 8th, 12th,
+16th etc process has completed.
+
+However, in some scenarios the length of \code{X} is comparable to the number of
+cores and each process may take a long time. For example, machine learning
+applied to each of 8 folds on an 8-core machine will open 8 processes from
+the outset. Each process will often complete at roughly the same time. In
+this case \code{pmclapply} is much less informative as it only shows completion at
+the end of 1 round of processes, so it will go from 0\% to 100\%. For this
+scenario, we recommend users use \code{\link[=mcProgressBar]{mcProgressBar()}} which allows more
+fine-grained reporting of subprogress from within a block of parallel
+processes.
+}
 \examples{
 res <- pmclapply(letters[1:20], function(i) {
                  Sys.sleep(0.2 + runif(1) * 0.1)
@@ -58,5 +77,5 @@ res <- pmclapply(letters[1:20], function(i) {
 
 }
 \seealso{
-\code{\link[=mclapply]{mclapply()}}
+\code{\link[=mclapply]{mclapply()}} \code{\link[=mcProgressBar]{mcProgressBar()}}
 }
