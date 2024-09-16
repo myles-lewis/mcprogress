@@ -1,5 +1,5 @@
-Package: pmclapply
-Title: Add a progress bar to mclapply
+Package: mcprogress
+Title: Progress bars for mclapply and parallel processes
 Version: 0.0.0.9000
 Authors@R: 
     c(person(given = "Myles",family = "Lewis",
