@@ -121,7 +121,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   # standard
   p <- paste(c(title, sp, "|", rep.int("=", nb), rep.int(" ", width - nb),
                sprintf("| %3d%%", pc)), collapse = "")
-  if (checkenv() && rstudioapi::isAvailable()) {
+  if (Sys.getenv("RSTUDIO") == "1" && rstudioapi::isAvailable()) {
     if (rstudioapi::getThemeInfo()$dark) {
       # colour
       p <- paste(c("\\x1b[37m", title, sp, "|\\x1b[36m", rep.int("=", nb),
@@ -151,7 +151,7 @@ mcSpinner <- function(val, title) {
 }
 
 
-# returns TRUE if in Rstudio
+# returns TRUE if in Rstudio or Linux
 checkenv <- function() {
   Sys.getenv("RSTUDIO") == "1" || Sys.info()['sysname'] == "Linux"
 }
