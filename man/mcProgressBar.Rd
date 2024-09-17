@@ -40,7 +40,7 @@ No return value. Prints a progress bar to the console if called
 within the Rstudio environment.
 }
 \description{
-Uses Rstudio console to safely output a progress bar during parallel
+Uses Rstudio or Linux console to safely output a progress bar during parallel
 processing.
 }
 \details{

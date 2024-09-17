@@ -47,8 +47,9 @@ parallelization requires at least two cores.}
 A list of the same length as \code{X} and named by \code{X}.
 }
 \description{
-\code{pmclapply} adds a progress bar to \code{\link[=mclapply]{mclapply()}} in Rstudio environment using
-output to the console. It is designed to add very little overhead.
+\code{pmclapply} adds a progress bar to \code{\link[=mclapply]{mclapply()}} in Rstudio or Linux
+environments using output to the console. It is designed to add very little
+overhead.
 }
 \details{
 This function can be used in an identical manner to \code{\link[=mclapply]{mclapply()}}. It is ideal

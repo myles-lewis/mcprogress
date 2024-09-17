@@ -1,7 +1,7 @@
 
 #' Show progress bar during parallel processing 
 #' 
-#' Uses Rstudio console to safely output a progress bar during parallel
+#' Uses Rstudio or Linux console to safely output a progress bar during parallel
 #' processing.
 #' 
 #' This package provides 2 main methods to show progress during parallelised

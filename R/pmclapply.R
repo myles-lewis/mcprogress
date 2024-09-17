@@ -1,8 +1,9 @@
 
 #' mclapply with progress bar
 #' 
-#' `pmclapply` adds a progress bar to [mclapply()] in Rstudio environment using
-#' output to the console. It is designed to add very little overhead.
+#' `pmclapply` adds a progress bar to [mclapply()] in Rstudio or Linux
+#' environments using output to the console. It is designed to add very little
+#' overhead.
 #' 
 #' This function can be used in an identical manner to [mclapply()]. It is ideal
 #' for use if the length of `X` is comparably > cores. As processes are spawned

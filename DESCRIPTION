@@ -6,7 +6,7 @@ Authors@R:
     role = c("aut", "cre"),
     email = "myles.lewis@qmul.ac.uk",
     comment = c(ORCID = "0000-0001-9365-5345")))
-Description: Lightweight package which acts as a wrapper around mclapply and adds a progress bar to it in RStudio environment.
+Description: Lightweight package which acts as a wrapper around mclapply and adds a progress bar to it in RStudio or Linux environments.
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports:
