@@ -39,6 +39,7 @@
 #' @returns No return value. Prints a progress bar to the console if called
 #'   within the Rstudio environment.
 #' @seealso [pmclapply()] [mclapply()]
+#' @author Myles Lewis
 #' @examples
 #' ## Example function with mclapply wrapped around another nested function
 #' library(parallel)
@@ -48,9 +49,9 @@
 #'   mcProgressBar(val = 0, title = "my_fun")  # initialise progress bar
 #'   res <- mclapply(seq_along(x), function(i) {
 #'     # inner loop of calculation
-#'     y <- 1:5
+#'     y <- 1:4
 #'     inner <- lapply(seq_along(y), function(j) {
-#'       Sys.sleep(0.3 + runif(1) * 0.2)
+#'       Sys.sleep(0.2 + runif(1) * 0.1)
 #'       mcProgressBar(val = i, len = length(x), cores, subval = j / length(y),
 #'                     title = "my_fun")
 #'       rnorm(4)
@@ -64,7 +65,31 @@
 #' if (Sys.info()["sysname"] != "Windows") {
 #' res <- my_fun(letters[1:4], cores = 2)
 #' }
-#'
+#' 
+#' ## Example of long function
+#' longfun <- function(x, cores) {
+#'   start <- Sys.time()
+#'   mcProgressBar(val = 0, title = "longfun")  # initialise progress bar
+#'   res <- mclapply(seq_along(x), function(i) {
+#'     # long sequential calculation in parallel with 3 major steps
+#'     Sys.sleep(0.2)
+#'     mcProgressBar(val = i, len = length(x), cores, subval = 0.33,
+#'                   title = "longfun")  # 33% complete
+#'     Sys.sleep(0.2)
+#'     mcProgressBar(val = i, len = length(x), cores, subval = 0.66,
+#'                   title = "longfun")  # 66% complete
+#'     Sys.sleep(0.2)
+#'     mcProgressBar(val = i, len = length(x), cores, subval = 1,
+#'                   title = "longfun")  # 100% complete
+#'     return(rnorm(4))
+#'   }, mc.cores = cores)
+#'   closeProgress(start, title = "longfun")  # finalise the progress bar
+#'   res
+#' }
+#' 
+#' if (Sys.info()["sysname"] != "Windows") {
+#' res <- longfun(letters[1:2], cores = 2)
+#' }
 #' @export
 
 mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",

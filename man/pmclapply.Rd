@@ -80,3 +80,6 @@ res <- pmclapply(letters[1:20], function(i) {
 \seealso{
 \code{\link[=mclapply]{mclapply()}} \code{\link[=mcProgressBar]{mcProgressBar()}}
 }
+\author{
+Myles Lewis
+}

@@ -39,6 +39,7 @@
 #'   See [mclapply()].
 #' @return A list of the same length as `X` and named by `X`.
 #' @seealso [mclapply()] [mcProgressBar()]
+#' @author Myles Lewis
 #' @examples
 #' if (Sys.info()["sysname"] != "Windows") {
 #' res <- pmclapply(letters[1:20], function(i) {
