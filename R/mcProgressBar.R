@@ -75,7 +75,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
     sp <- if (!spinner || pc == 0 || pc == 100) "  " else c("/ ", "- ", "\\\ ", "| ")[i]
   } else {
     # with subvalue
-    if (subval < 0 | subval > 1) stop_parallel("impossible subval")
+    if (subval < 0 | subval > 1) mcstop("impossible subval")
     if (cores == 1) {
       val2 <- (val + subval -1) / len
     } else {
@@ -87,7 +87,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
     pc <- round(100 * val2)
     sp <- "  "
   }
-  if (pc > 100) stop_parallel("impossible percent progress")
+  if (pc > 100) mcstop("impossible percent progress")
   if (title != "") title <- paste0(title, " ")
   
   # standard
@@ -120,28 +120,6 @@ mcSpinner <- function(val, title) {
   sp <- c("/", "-", "\\\ ", "|")[i]
   if (title != "") title <- paste0(title, " ")
   over_parallel(title, sp)
-}
-
-# prints using shell echo from inside mclapply when run in Rstudio
-cat_parallel <- function(...) {
-  if (!checkenv()) return()
-  system(sprintf('echo "%s', paste0(..., '\\c"', collapse = "")))
-}
-
-message_parallel <- function(...) {
-  if (!checkenv()) return()
-  system(sprintf('echo "%s"', paste0(..., collapse = "")))
-}
-
-over_parallel <- function(...) {
-  if (!checkenv()) return()
-  p <- paste0('\\r', ..., '\\c"', collapse = "")
-  system(sprintf('echo "%s', p))
-}
-
-stop_parallel <- function(...) {
-  message_parallel('\\n', ...)
-  stop()
 }
 
 

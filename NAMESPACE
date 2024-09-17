@@ -2,5 +2,6 @@
 
 export(closeProgress)
 export(mcProgressBar)
+export(mcstop)
 export(pmclapply)
 importFrom(parallel,mclapply)
