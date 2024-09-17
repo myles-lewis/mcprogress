@@ -1,8 +1,8 @@
 
 #' Show progress bar during parallel processing 
 #' 
-#' Uses Rstudio or Linux console to safely output a progress bar during parallel
-#' processing.
+#' Uses `echo` to safely output a progress bar to Rstudio or Linux console
+#' during parallel processing.
 #' 
 #' This package provides 2 main methods to show progress during parallelised
 #' code using [mclapply()]. If `X` (the list object looped over in a call to

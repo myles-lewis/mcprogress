@@ -40,8 +40,8 @@ No return value. Prints a progress bar to the console if called
 within the Rstudio environment.
 }
 \description{
-Uses Rstudio or Linux console to safely output a progress bar during parallel
-processing.
+Uses \code{echo} to safely output a progress bar to Rstudio or Linux console
+during parallel processing.
 }
 \details{
 This package provides 2 main methods to show progress during parallelised
