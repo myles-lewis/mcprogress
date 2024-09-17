@@ -153,5 +153,5 @@ mcSpinner <- function(val, title) {
 
 # returns TRUE if in Rstudio
 checkenv <- function() {
-  Sys.getenv("RSTUDIO") == "1"
+  Sys.getenv("RSTUDIO") == "1" || Sys.info()['sysname'] == "Linux"
 }
