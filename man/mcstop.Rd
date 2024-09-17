@@ -11,10 +11,10 @@ mcstop(...)
 the console using \code{echo}.}
 }
 \value{
-Produces an error message.
+Prints an error message.
 }
 \description{
 \code{mcstop} is a multicore version of \code{stop} which prints to the console using
 \code{echo} during parallel commands such as \code{\link[=mclapply]{mclapply()}}, to allow error messages
-to be seen more clearly.
+to be more visible.
 }
