@@ -42,7 +42,7 @@
 #' @examples
 #' ## Example function with mclapply wrapped around another nested function
 #' library(parallel)
-#'
+#' 
 #' my_fun <- function(x, cores) {
 #'   start <- Sys.time()
 #'   mcProgressBar(val = 0, title = "my_fun")  # initialise progress bar
@@ -60,7 +60,10 @@
 #'   closeProgress(start, title = "my_fun")  # finalise the progress bar
 #'   res
 #' }
+#' 
+#' if (Sys.info()["sysname"] != "Windows") {
 #' res <- my_fun(letters[1:4], cores = 2)
+#' }
 #'
 #' @export
 

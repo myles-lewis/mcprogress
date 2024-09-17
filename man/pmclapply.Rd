@@ -70,11 +70,12 @@ fine-grained reporting of subprogress from within a block of parallel
 processes.
 }
 \examples{
+if (Sys.info()["sysname"] != "Windows") {
 res <- pmclapply(letters[1:20], function(i) {
                  Sys.sleep(0.2 + runif(1) * 0.1)
                  setNames(rnorm(5), paste0(i, 1:5))
                  }, mc.cores = 2, title = "Working")
-
+}
 }
 \seealso{
 \code{\link[=mclapply]{mclapply()}} \code{\link[=mcProgressBar]{mcProgressBar()}}

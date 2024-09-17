@@ -86,7 +86,10 @@ my_fun <- function(x, cores) {
   closeProgress(start, title = "my_fun")  # finalise the progress bar
   res
 }
+
+if (Sys.info()["sysname"] != "Windows") {
 res <- my_fun(letters[1:4], cores = 2)
+}
 
 }
 \seealso{

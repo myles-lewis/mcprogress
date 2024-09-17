@@ -40,11 +40,12 @@
 #' @return A list of the same length as `X` and named by `X`.
 #' @seealso [mclapply()] [mcProgressBar()]
 #' @examples
+#' if (Sys.info()["sysname"] != "Windows") {
 #' res <- pmclapply(letters[1:20], function(i) {
 #'                  Sys.sleep(0.2 + runif(1) * 0.1)
 #'                  setNames(rnorm(5), paste0(i, 1:5))
 #'                  }, mc.cores = 2, title = "Working")
-#' 
+#' }
 #' @importFrom parallel mclapply
 #' @export
 pmclapply <- function(X, FUN, ..., progress = TRUE, spinner = TRUE, title = "",
