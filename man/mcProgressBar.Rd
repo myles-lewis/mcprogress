@@ -66,12 +66,14 @@ Subprogress of this process is computed as part of the number of blocks of
 processes required.
 }
 \examples{
+if (Sys.info()["sysname"] != "Windows") {
+
 ## Example function with mclapply wrapped around another nested function
 library(parallel)
 
 my_fun <- function(x, cores) {
   start <- Sys.time()
-  mcProgressBar(val = 0, title = "my_fun")  # initialise progress bar
+  mcProgressBar(0, title = "my_fun")  # initialise progress bar
   res <- mclapply(seq_along(x), function(i) {
     # inner loop of calculation
     y <- 1:4
@@ -87,14 +89,12 @@ my_fun <- function(x, cores) {
   res
 }
 
-if (Sys.info()["sysname"] != "Windows") {
 res <- my_fun(letters[1:4], cores = 2)
-}
 
 ## Example of long function
 longfun <- function(x, cores) {
   start <- Sys.time()
-  mcProgressBar(val = 0, title = "longfun")  # initialise progress bar
+  mcProgressBar(0, title = "longfun")  # initialise progress bar
   res <- mclapply(seq_along(x), function(i) {
     # long sequential calculation in parallel with 3 major steps
     Sys.sleep(0.2)
@@ -112,8 +112,8 @@ longfun <- function(x, cores) {
   res
 }
 
-if (Sys.info()["sysname"] != "Windows") {
 res <- longfun(letters[1:2], cores = 2)
+
 }
 }
 \seealso{
