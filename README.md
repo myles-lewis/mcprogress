@@ -6,7 +6,7 @@ with `pmclapply()`.
 
 ### Installation
 
-Clone the repo using github desktop etc.
+Clone the repo using Github desktop etc.
 
 Install using R/devtools.
 
@@ -20,4 +20,14 @@ Or install direct from Github (this will only work once the package is public
 and not private).
 ```
 devtools::install_github("myles-lewis/mcprogress")
+```
+
+### Example
+
+```
+# toy example
+res <- pmclapply(letters[1:20], function(i) {
+                 Sys.sleep(0.2 + runif(1) * 0.1)
+                 setNames(rnorm(5), paste0(i, 1:5))
+                 }, mc.cores = 2, title = "Working")
 ```
