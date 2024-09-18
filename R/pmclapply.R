@@ -15,13 +15,13 @@
 #' 
 #' However, in some scenarios the length of `X` is comparable to the number of
 #' cores and each process may take a long time. For example, machine learning
-#' applied to each of 8 folds on an 8-core machine will open 8 processes from
-#' the outset. Each process will often complete at roughly the same time. In
-#' this case `pmclapply` is much less informative as it only shows completion at
-#' the end of 1 round of processes, so it will go from 0% to 100%. For this
-#' scenario, we recommend users use [mcProgressBar()] which allows more
-#' fine-grained reporting of subprogress from within a block of parallel
-#' processes.
+#' applied to each of 8 cross-validation folds on an 8-core machine will open 8
+#' processes from the outset. Each process will often complete at roughly the
+#' same time. In this case `pmclapply` is much less informative as it only shows
+#' completion at the end of 1 round of processes, so it will go from 0% straight
+#' to 100%. For this scenario, we recommend users use [mcProgressBar()] which
+#' allows more fine-grained reporting of subprogress from within a block of
+#' parallel processes.
 #' 
 #' @param X a vector (atomic or list) or an expressions vector. Other objects
 #'   (including classed objects) will be coerced by `as.list`.

@@ -62,13 +62,13 @@ example, with 4 cores, \code{pmclapply} reports progress when the 4th, 8th, 12th
 
 However, in some scenarios the length of \code{X} is comparable to the number of
 cores and each process may take a long time. For example, machine learning
-applied to each of 8 folds on an 8-core machine will open 8 processes from
-the outset. Each process will often complete at roughly the same time. In
-this case \code{pmclapply} is much less informative as it only shows completion at
-the end of 1 round of processes, so it will go from 0\% to 100\%. For this
-scenario, we recommend users use \code{\link[=mcProgressBar]{mcProgressBar()}} which allows more
-fine-grained reporting of subprogress from within a block of parallel
-processes.
+applied to each of 8 cross-validation folds on an 8-core machine will open 8
+processes from the outset. Each process will often complete at roughly the
+same time. In this case \code{pmclapply} is much less informative as it only shows
+completion at the end of 1 round of processes, so it will go from 0\% straight
+to 100\%. For this scenario, we recommend users use \code{\link[=mcProgressBar]{mcProgressBar()}} which
+allows more fine-grained reporting of subprogress from within a block of
+parallel processes.
 }
 \examples{
 if (Sys.info()["sysname"] != "Windows") {
