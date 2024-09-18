@@ -6,18 +6,7 @@ with `pmclapply()`.
 
 ### Installation
 
-Clone the repo using Github desktop etc.
-
-Install using R/devtools.
-
-```
-# set path to the repo
-setwd("../github/mcprogress")
-devtools::install()
-```
-
-Or install direct from Github (this will only work once the package is public 
-and not private).
+Install direct from Github:
 ```
 devtools::install_github("myles-lewis/mcprogress")
 ```
