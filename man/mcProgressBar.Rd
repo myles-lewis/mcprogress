@@ -69,7 +69,10 @@ loop. The example below shows how to write code involving an outer call to
 Technically only 1 process can be tracked. If \code{cores} is set to 4 and
 \code{subval} is invoked, then the 1st, 5th, 9th, 13th etc process is tracked.
 Subprogress of this process is computed as part of the number of blocks of
-processes required.
+processes required. ETA is approximate. As part of minimising overhead, it is
+only updated with each change in progress (i.e. each time a block of
+processes completes) or when subprogress changes. It is not updated by
+interrupt.
 }
 \examples{
 if (Sys.info()["sysname"] != "Windows") {

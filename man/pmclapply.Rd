@@ -72,6 +72,10 @@ completion at the end of 1 round of processes, so it will go from 0\% straight
 to 100\%. For this scenario, we recommend users use \code{\link[=mcProgressBar]{mcProgressBar()}} which
 allows more fine-grained reporting of subprogress from within a block of
 parallel processes.
+
+ETA is approximate. As part of minimising overhead, it is only updated with
+each change in progress (i.e. each time a block of processes completes). It
+is not updated by interrupt.
 }
 \examples{
 if (Sys.info()["sysname"] != "Windows") {

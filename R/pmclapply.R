@@ -23,6 +23,10 @@
 #' allows more fine-grained reporting of subprogress from within a block of
 #' parallel processes.
 #' 
+#' ETA is approximate. As part of minimising overhead, it is only updated with
+#' each change in progress (i.e. each time a block of processes completes). It
+#' is not updated by interrupt.
+#' 
 #' @param X a vector (atomic or list) or an expressions vector. Other objects
 #'   (including classed objects) will be coerced by `as.list`.
 #' @param FUN the function to be applied via [mclapply()] to each element of `X`

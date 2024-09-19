@@ -23,7 +23,10 @@
 #' Technically only 1 process can be tracked. If `cores` is set to 4 and
 #' `subval` is invoked, then the 1st, 5th, 9th, 13th etc process is tracked.
 #' Subprogress of this process is computed as part of the number of blocks of
-#' processes required.
+#' processes required. ETA is approximate. As part of minimising overhead, it is
+#' only updated with each change in progress (i.e. each time a block of
+#' processes completes) or when subprogress changes. It is not updated by 
+#' interrupt.
 #'
 #' @param val Integer measuring progress
 #' @param len Total number of processes to be executed overall.
