@@ -36,7 +36,8 @@
 #'   `cores`.
 #' @param title Optional title for the progress bar.
 #' @param spinner Logical whether to show a spinner which moves when each core
-#'   completes a process. Not shown if `subval` is used.
+#'   completes a process. More useful if the length of time for each process to
+#'   complete is variable. Not shown if `subval` is used.
 #' @param eta Logical whether to show estimated time to completion. `start`
 #'   system time must be supplied with each call to `mcProgressbar` in order to
 #'   estimate the time to completion.

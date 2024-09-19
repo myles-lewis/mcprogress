@@ -33,7 +33,8 @@ in parallel.}
 \item{progress}{Logical whether to show the progress bar.}
 
 \item{spinner}{Logical whether to show a spinner which moves each time a
-parallel process is completed.}
+parallel process is completed. More useful if the length of time for each
+process to complete is variable.}
 
 \item{title}{Title for the progress bar.}
 

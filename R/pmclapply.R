@@ -34,7 +34,8 @@
 #' @param ... Optional arguments passed to `FUN`.
 #' @param progress Logical whether to show the progress bar.
 #' @param spinner Logical whether to show a spinner which moves each time a
-#'   parallel process is completed.
+#'   parallel process is completed. More useful if the length of time for each
+#'   process to complete is variable.
 #' @param title Title for the progress bar.
 #' @param eta Logical whether to show estimated time to completion.
 #' @param mc.cores The number of cores to use, i.e. at most how many child

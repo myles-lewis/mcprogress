@@ -32,7 +32,8 @@ during long processes. Especially useful if \code{len} is small relative to
 \item{title}{Optional title for the progress bar.}
 
 \item{spinner}{Logical whether to show a spinner which moves when each core
-completes a process. Not shown if \code{subval} is used.}
+completes a process. More useful if the length of time for each process to
+complete is variable. Not shown if \code{subval} is used.}
 
 \item{eta}{Logical whether to show estimated time to completion. \code{start}
 system time must be supplied with each call to \code{mcProgressbar} in order to
