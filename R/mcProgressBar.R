@@ -100,7 +100,7 @@
 #' @export
 
 mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
-                          spinner = TRUE, eta = FALSE, start = NULL) {
+                          spinner = FALSE, eta = TRUE, start = NULL) {
   width <- getOption("width") - 22L - nchar(title)
   tim <- ""
   if (eta) width <- width - 2L

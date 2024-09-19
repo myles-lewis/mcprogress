@@ -57,8 +57,8 @@
 #' }
 #' @importFrom parallel mclapply
 #' @export
-pmclapply <- function(X, FUN, ..., progress = TRUE, spinner = TRUE, title = "",
-                      eta = FALSE,
+pmclapply <- function(X, FUN, ..., progress = TRUE, spinner = FALSE, title = "",
+                      eta = TRUE,
                       mc.preschedule = TRUE, mc.set.seed = TRUE,
                       mc.silent = FALSE, mc.cores = getOption("mc.cores", 2L),
                       mc.cleanup = TRUE, mc.allow.recursive = TRUE,

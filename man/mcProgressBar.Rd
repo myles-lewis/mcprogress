@@ -11,8 +11,8 @@ mcProgressBar(
   cores = 1L,
   subval = NULL,
   title = "",
-  spinner = TRUE,
-  eta = FALSE,
+  spinner = FALSE,
+  eta = TRUE,
   start = NULL
 )
 
