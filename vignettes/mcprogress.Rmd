@@ -1,0 +1,52 @@
+---
+title: "mcprogress"
+author: "Myles Lewis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mcprogress}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
+
+# Installation
+
+Install from CRAN
+```{r eval = FALSE}
+install.packages("mcprogress")
+```
+
+Install from Github
+```{r eval = FALSE}
+devtools::install_github("myles-lewis/mcprogress")
+```
+
+# Example
+
+This package adds a progress bar to `mclapply()` using `echo` to output to the
+console in Rstudio or Linux environments. Simply replace your original call to
+`mclapply()` with `pmclapply()`.
+
+```{r eval=FALSE}
+library(mcprogress)
+
+# toy example
+res <- pmclapply(letters[1:20], function(i) {
+                 Sys.sleep(0.2 + runif(1) * 0.1)
+                 setNames(rnorm(5), paste0(i, 1:5))
+                 }, mc.cores = 2, title = "Working")
+
+```
+
+```{r eval=FALSE}
+Working  |================================                 |  60%  eta 3.1 secs
+```
+
+The package also includes functions to safely print messages (including error
+messages) from within parallelised code. This can be very useful for debugging
+parallel R code.
