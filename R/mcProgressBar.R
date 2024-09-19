@@ -130,7 +130,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
     dur <- curr - start
     rem <- make_difftime((1 - val2) / val2 * dur)
     tim <- if (val2 != 1) paste("  eta", format(rem, digits = 2)) else ""
-    tim <- str_pad(tim, 15)
+    tim <- str_pad(tim, 16)
   }
   if (pc > 100) mcstop("impossible percent progress")
   if (title != "") title <- paste0(title, " ")
@@ -141,6 +141,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   if (Sys.getenv("RSTUDIO") == "1" && rstudioapi::isAvailable()) {
     if (rstudioapi::getThemeInfo()$dark) {
       # colour
+      if (tim != "") tim <- paste0("\\x1b[32m", tim, "\\x1b[37m")
       p <- paste(c("\\x1b[37m", title, sp, "|\\x1b[36m", rep.int("=", nb),
                    rep.int(" ", width - nb),
                    sprintf("\\x1b[37m| %3d%%", pc), tim), collapse = "")
@@ -156,7 +157,7 @@ closeProgress <- function(start = NULL, title = "", eta = FALSE) {
   mcProgressBar(1, title = title, eta = eta)
   if (!is.null(start)) {
     p <- paste0("  (", format(end - start, digits = 3), ")")
-    if (eta) p <- str_pad(p, 15)
+    if (eta) p <- str_pad(p, 16)
     message_parallel(p)
   }
 }
