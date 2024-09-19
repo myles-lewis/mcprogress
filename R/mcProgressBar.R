@@ -34,6 +34,9 @@
 #' @param title Optional title for the progress bar.
 #' @param spinner Logical whether to show a spinner which moves when each core
 #'   completes a process. Not shown if `subval` is used.
+#' @param eta Logical whether to show estimated time to completion. `start`
+#'   system time must be supplied with each call to `mcProgressbar` in order to
+#'   estimate the time to completion.
 #' @param start Used to pass the system time from the start of the call to show
 #'   a total time elapsed. See the example below.
 #' @returns No return value. Prints a progress bar to the console if called
@@ -93,14 +96,20 @@
 #' @export
 
 mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
-                          spinner = TRUE) {
+                          spinner = TRUE, eta = FALSE, start = NULL) {
   width <- getOption("width") - 22L - nchar(title)
+  tim <- ""
+  if (eta) width <- width - 2L
   if (is.null(subval)) {
     if (val %% cores != 0) return(if (spinner) mcSpinner(val, title))
     nb <- round(width * val / len)
     pc <- round(100 * val / len)
     i <- val %% 4 +1
     sp <- if (!spinner || pc == 0 || pc == 100) "  " else c("/ ", "- ", "\\\ ", "| ")[i]
+    if (eta & !is.null(start)) {
+      nround <- ceiling(len / cores)
+      val2 <- ceiling(val / cores) / nround
+    }
   } else {
     # with subvalue
     if (subval < 0 | subval > 1) mcstop("impossible subval")
@@ -115,18 +124,25 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
     pc <- round(100 * val2)
     sp <- "  "
   }
+  if (eta & !is.null(start)) {
+    curr <- Sys.time()
+    dur <- difftime(curr, start)
+    rem <- (1 - val2) / val2 * dur
+    tim <- if (val2 != 1) paste("  eta", format(rem, digits = 2)) else ""
+    tim <- str_pad(tim, 15)
+  }
   if (pc > 100) mcstop("impossible percent progress")
   if (title != "") title <- paste0(title, " ")
   
   # standard
   p <- paste(c(title, sp, "|", rep.int("=", nb), rep.int(" ", width - nb),
-               sprintf("| %3d%%", pc)), collapse = "")
+               sprintf("| %3d%%", pc), tim), collapse = "")
   if (Sys.getenv("RSTUDIO") == "1" && rstudioapi::isAvailable()) {
     if (rstudioapi::getThemeInfo()$dark) {
       # colour
       p <- paste(c("\\x1b[37m", title, sp, "|\\x1b[36m", rep.int("=", nb),
                    rep.int(" ", width - nb),
-                   sprintf("\\x1b[37m| %3d%%", pc)), collapse = "")
+                   sprintf("\\x1b[37m| %3d%%", pc), tim), collapse = "")
     }
   }
   over_parallel(p)
@@ -134,11 +150,13 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
 
 #' @rdname mcProgressBar
 #' @export
-closeProgress <- function(start = NULL, title = "") {
+closeProgress <- function(start = NULL, title = "", eta = FALSE) {
   end <- Sys.time()
-  mcProgressBar(1, title = title)
+  mcProgressBar(1, title = title, eta = eta)
   if (!is.null(start)) {
-    message_parallel("  (", format(end - start, digits = 3), ")")
+    p <- paste0("  (", format(end - start, digits = 3), ")")
+    if (eta) p <- str_pad(p, 15)
+    message_parallel(p)
   }
 }
 
@@ -150,6 +168,12 @@ mcSpinner <- function(val, title) {
   over_parallel(title, sp)
 }
 
+
+str_pad <- function(x, n) {
+  nc <- nchar(x)
+  if (nc < n) x <- paste(c(x, rep.int(" ", n - nc)), collapse = "")
+  x
+}
 
 # returns TRUE if in Rstudio or Linux
 checkenv <- function() {

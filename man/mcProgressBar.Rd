@@ -11,10 +11,12 @@ mcProgressBar(
   cores = 1L,
   subval = NULL,
   title = "",
-  spinner = TRUE
+  spinner = TRUE,
+  eta = FALSE,
+  start = NULL
 )
 
-closeProgress(start = NULL, title = "")
+closeProgress(start = NULL, title = "", eta = FALSE)
 }
 \arguments{
 \item{val}{Integer measuring progress}
@@ -31,6 +33,10 @@ during long processes. Especially useful if \code{len} is small relative to
 
 \item{spinner}{Logical whether to show a spinner which moves when each core
 completes a process. Not shown if \code{subval} is used.}
+
+\item{eta}{Logical whether to show estimated time to completion. \code{start}
+system time must be supplied with each call to \code{mcProgressbar} in order to
+estimate the time to completion.}
 
 \item{start}{Used to pass the system time from the start of the call to show
 a total time elapsed. See the example below.}

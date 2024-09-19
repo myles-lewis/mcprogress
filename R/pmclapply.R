@@ -32,6 +32,7 @@
 #' @param spinner Logical whether to show a spinner which moves each time a
 #'   parallel process is completed.
 #' @param title Title for the progress bar.
+#' @param eta Logical whether to show estimated time to completion.
 #' @param mc.cores The number of cores to use, i.e. at most how many child
 #'   processes will be run simultaneously. The option is initialized from
 #'   environment variable `MC_CORES` if set. Must be at least one, and
@@ -53,6 +54,7 @@
 #' @importFrom parallel mclapply
 #' @export
 pmclapply <- function(X, FUN, ..., progress = TRUE, spinner = TRUE, title = "",
+                      eta = FALSE,
                       mc.preschedule = TRUE, mc.set.seed = TRUE,
                       mc.silent = FALSE, mc.cores = getOption("mc.cores", 2L),
                       mc.cleanup = TRUE, mc.allow.recursive = TRUE,
@@ -70,16 +72,17 @@ pmclapply <- function(X, FUN, ..., progress = TRUE, spinner = TRUE, title = "",
   s <- seq_along(X)
   FUN1 <- function(i, ...) {
     out <- FUN(X[[i]], ...)
-    mcProgressBar(i, length(s), mc.cores, title = title, spinner = spinner)
+    mcProgressBar(i, length(s), mc.cores, title = title, spinner = spinner,
+                  eta = eta, start = start)
     out
   }
-  mcProgressBar(0, title = title, spinner = spinner)
+  mcProgressBar(0, title = title, spinner = spinner, eta = eta)
   ret <- mclapply(s, FUN1,
                   mc.preschedule = mc.preschedule, mc.set.seed = mc.set.seed,
                   mc.silent = mc.silent, mc.cores = mc.cores,
                   mc.cleanup = mc.cleanup,
                   mc.allow.recursive = mc.allow.recursive,
                   affinity.list = affinity.list, ...)
-  closeProgress(start, title = title)
+  closeProgress(start, title = title, eta = eta)
   ret
 }

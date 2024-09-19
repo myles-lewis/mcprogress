@@ -11,6 +11,7 @@ pmclapply(
   progress = TRUE,
   spinner = TRUE,
   title = "",
+  eta = FALSE,
   mc.preschedule = TRUE,
   mc.set.seed = TRUE,
   mc.silent = FALSE,
@@ -35,6 +36,8 @@ in parallel.}
 parallel process is completed.}
 
 \item{title}{Title for the progress bar.}
+
+\item{eta}{Logical whether to show estimated time to completion.}
 
 \item{mc.preschedule, mc.set.seed, mc.silent, mc.cleanup, mc.allow.recursive, affinity.list}{See \code{\link[=mclapply]{mclapply()}}.}
 
