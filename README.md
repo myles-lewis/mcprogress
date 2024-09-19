@@ -10,7 +10,17 @@ code.
 
 ### Installation
 
-Install from Github
+Install direct from Github:
 ```
 devtools::install_github("myles-lewis/mcprogress")
+```
+
+### Example
+
+```
+# toy example
+res <- pmclapply(letters[1:20], function(i) {
+                 Sys.sleep(0.2 + runif(1) * 0.1)
+                 setNames(rnorm(5), paste0(i, 1:5))
+                 }, mc.cores = 2, title = "Working")
 ```
