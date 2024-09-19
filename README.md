@@ -10,7 +10,7 @@ code.
 
 ### Installation
 
-Install direct from Github:
+Install direct from Github.
 ```
 devtools::install_github("myles-lewis/mcprogress")
 ```

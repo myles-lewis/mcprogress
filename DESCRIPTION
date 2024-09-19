@@ -10,7 +10,8 @@ Description: Lightweight package which acts as a wrapper around mclapply and add
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports:
-    parallel
+    parallel,
+    lubridate
 Suggests:
     rstudioapi
 Roxygen: list(markdown = TRUE)

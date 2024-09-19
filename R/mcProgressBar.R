@@ -93,6 +93,7 @@
 #' res <- longfun(letters[1:2], cores = 2)
 #' 
 #' }
+#' @importFrom lubridate make_difftime
 #' @export
 
 mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
@@ -126,8 +127,8 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   }
   if (eta & !is.null(start)) {
     curr <- Sys.time()
-    dur <- difftime(curr, start)
-    rem <- (1 - val2) / val2 * dur
+    dur <- curr - start
+    rem <- make_difftime((1 - val2) / val2 * dur)
     tim <- if (val2 != 1) paste("  eta", format(rem, digits = 2)) else ""
     tim <- str_pad(tim, 15)
   }
