@@ -25,5 +25,5 @@ res <- pmclapply(letters[1:20], function(i) {
                  }, mc.cores = 2, title = "Working")
 ```
 ```
-Working / |========================================                          |  60%  eta 3.1 secs
+Working / |================================                 |  60%  eta 3.1 secs
 ```
