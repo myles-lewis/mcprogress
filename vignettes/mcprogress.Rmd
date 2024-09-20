@@ -32,7 +32,9 @@ Install from Github
 devtools::install_github("myles-lewis/mcprogress")
 ```
 
-# Example
+# Examples
+
+## *mclapply* with progress bar
 
 This package adds a progress bar to `mclapply()` using `echo` to output to the
 console in Rstudio or Linux environments. Simply replace your original call to
@@ -69,6 +71,8 @@ ETA is approximate. As part of minimising overhead, it is only updated with
 each change in progress (i.e. each time a block of processes completes). It
 is not updated by interrupt.
 
+## Tracking subprogress 
+
 However, in some scenarios the length of `X` is comparable to the number of
 cores and each process may take a long time. For example, machine learning
 applied to each of 8 cross-validation folds on an 8-core machine will open 8
@@ -86,8 +90,16 @@ processes across 8 cores, with subprogress divided into 5 intervals.
 knitr::include_graphics("mcp2.png")
 ```
 
-In the next example, we build a custom function including a call to `mclapply`
-wrapped around another nested function which can report subprogress.
+Technically only 1 process can be tracked. If `cores` is set to 4 and `subval`
+is invoked, then the 1st, 5th, 9th, 13th etc process is tracked. Subprogress of
+this process is computed as part of the number of blocks of processes required.
+ETA is approximate. As part of minimising overhead, it is only updated with each
+change in progress (i.e. each time a block of processes completes) or when
+subprogress changes. It is not updated by interrupt.
+
+In the next example, we build a custom function showing how to use
+`mcProgressBar()` including a call to `mclapply` wrapped around another nested
+function which can report subprogress.
 
 ```{r eval=FALSE}
 library(parallel)
@@ -145,4 +157,3 @@ res <- longfun(letters[1:2], cores = 2)
 The package also includes functions to safely print messages (including error
 messages) from within parallelised code. This can be very useful for debugging
 parallel R code.
-x
