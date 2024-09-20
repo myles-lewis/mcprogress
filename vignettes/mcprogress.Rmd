@@ -1,7 +1,13 @@
 ---
 title: "mcprogress"
 author: "Myles Lewis"
-output: rmarkdown::html_vignette
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 2
+    number_sections: true
 vignette: >
   %\VignetteIndexEntry{mcprogress}
   %\VignetteEngine{knitr::rmarkdown}
@@ -47,6 +53,96 @@ res <- pmclapply(letters[1:20], function(i) {
 Working  |================================                 |  60%  eta 3.1 secs
 ```
 
+`pmclapply()` can be used in an identical manner to `mclapply()`. It is ideal
+for use if the length of `X` is comparably > cores. As processes are spawned
+in a block and most code for each process completes at roughly the same time,
+processes move along in blocks as determined by `mc.cores`. To track
+progress, `pmclapply` only tracks the nth process, where n=`mc.cores`. For
+example, with 4 cores, `pmclapply` reports progress when the 4th, 8th, 12th,
+16th etc process has completed.
+
+```{r, out.width='70%', echo=FALSE}
+knitr::include_graphics("mcp1.png")
+```
+
+ETA is approximate. As part of minimising overhead, it is only updated with
+each change in progress (i.e. each time a block of processes completes). It
+is not updated by interrupt.
+
+However, in some scenarios the length of `X` is comparable to the number of
+cores and each process may take a long time. For example, machine learning
+applied to each of 8 cross-validation folds on an 8-core machine will open 8
+processes from the outset. Each process will often complete at roughly the
+same time. In this case `pmclapply` is much less informative as it only shows
+completion at the end of 1 round of processes, so it will go from 0% straight
+to 100%.
+
+For this scenario, we recommend users use `mcProgressBar()` which
+allows more fine-grained reporting of subprogress from within a block of
+parallel processes. The diagram below illustrates computation involving 10
+processes across 8 cores, with subprogress divided into 5 intervals.
+
+```{r, out.width='45%', echo=FALSE}
+knitr::include_graphics("mcp2.png")
+```
+
+In the next example, we build a custom function including a call to `mclapply`
+wrapped around another nested function which can report subprogress.
+
+```{r eval=FALSE}
+library(parallel)
+
+my_fun <- function(x, cores) {
+  start <- Sys.time()
+  mcProgressBar(0, title = "my_fun")  # initialise progress bar
+  res <- mclapply(seq_along(x), function(i) {
+    # inner loop of calculation
+    y <- 1:4
+    inner <- lapply(seq_along(y), function(j) {
+      Sys.sleep(0.2 + runif(1) * 0.1)
+      mcProgressBar(val = i, len = length(x), cores, subval = j / length(y),
+                    title = "my_fun")
+      rnorm(4)
+    })
+    inner
+  }, mc.cores = cores)
+  closeProgress(start, title = "my_fun")  # finalise the progress bar
+  res
+}
+
+res <- my_fun(letters[1:4], cores = 2)
+```
+
+Alternatively even if the function call inside `mclapply` does not have a for
+loop or equivalent, then progress can still be reported manually after chunks of
+computation.
+
+```{r eval=FALSE}
+## Example of long function
+longfun <- function(x, cores) {
+  start <- Sys.time()
+  mcProgressBar(0, title = "longfun")  # initialise progress bar
+  res <- mclapply(seq_along(x), function(i) {
+    # long sequential calculation in parallel with 3 major steps
+    Sys.sleep(0.2)
+    mcProgressBar(val = i, len = length(x), cores, subval = 0.33,
+                  title = "longfun")  # 33% complete
+    Sys.sleep(0.2)
+    mcProgressBar(val = i, len = length(x), cores, subval = 0.66,
+                  title = "longfun")  # 66% complete
+    Sys.sleep(0.2)
+    mcProgressBar(val = i, len = length(x), cores, subval = 1,
+                  title = "longfun")  # 100% complete
+    return(rnorm(4))
+  }, mc.cores = cores)
+  closeProgress(start, title = "longfun")  # finalise the progress bar
+  res
+}
+
+res <- longfun(letters[1:2], cores = 2)
+```
+
 The package also includes functions to safely print messages (including error
 messages) from within parallelised code. This can be very useful for debugging
 parallel R code.
+x
