@@ -175,7 +175,8 @@ mcSpinner <- function(val, title) {
 
 
 format_dur <- function(x) {
-  s <- as.numeric(x) %% 60
+  x <- as.numeric(x)
+  s <- x %% 60
   m <- floor(x / 60)
   h <- floor(m / 60)
   if (h > 0) {
