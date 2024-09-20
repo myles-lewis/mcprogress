@@ -97,7 +97,6 @@
 #' res <- longfun(letters[1:2], cores = 2)
 #' 
 #' }
-#' @importFrom lubridate make_difftime
 #' @export
 
 mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
@@ -132,8 +131,8 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   if (eta & !is.null(start)) {
     curr <- Sys.time()
     dur <- curr - start
-    rem <- make_difftime((1 - val2) / val2 * dur)
-    tim <- if (val2 != 1) paste("  eta", format(rem, digits = 2)) else ""
+    rem <- format_dur((1 - val2) / val2 * dur)
+    tim <- if (val2 != 1) paste("  eta", rem) else ""
     tim <- str_pad(tim, 16)
   }
   if (pc > 100) mcstop("impossible percent progress")
@@ -172,6 +171,22 @@ mcSpinner <- function(val, title) {
   sp <- c("/", "-", "\\\ ", "|")[i]
   if (title != "") title <- paste0(title, " ")
   over_parallel(title, sp)
+}
+
+
+format_dur <- function(x) {
+  s <- as.numeric(x) %% 60
+  m <- floor(x / 60)
+  h <- floor(m / 60)
+  if (h > 0) {
+    m <- m %% 60
+    return(paste0(h, "h ", m, "m"))
+  }
+  if (m > 0) {
+    return(paste0(m, "m ", floor(s), "s"))
+  }
+  s <- format(round(s, 1), digits = 2)
+  paste0(s, " secs")
 }
 
 
