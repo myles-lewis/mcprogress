@@ -130,7 +130,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   }
   if (eta & !is.null(start)) {
     curr <- Sys.time()
-    dur <- curr - start
+    dur <- as.numeric(difftime(curr, start, units = "secs"))
     rem <- format_dur((1 - val2) / val2 * dur)
     tim <- if (val2 != 1) paste("  eta", rem) else ""
     tim <- str_pad(tim, 16)
