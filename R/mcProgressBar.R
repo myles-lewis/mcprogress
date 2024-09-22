@@ -105,6 +105,9 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   tim <- ""
   if (eta) width <- width - 2L
   if (is.null(subval)) {
+    if (len / cores > 200) {
+      cores <- cores * floor(len / cores / 100)  # reduce sampling
+    }
     if (val %% cores != 0) return(if (spinner) mcSpinner(val, title))
     nb <- round(width * val / len)
     pc <- round(100 * val / len)
@@ -131,6 +134,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   if (eta & !is.null(start)) {
     curr <- Sys.time()
     dur <- as.numeric(difftime(curr, start, units = "secs"))
+    if (dur < 0.5 && pc != 100) return()  # reduce sampling
     rem <- format_dur((1 - val2) / val2 * dur)
     tim <- if (val2 != 1) paste("  eta", rem) else ""
     tim <- str_pad(tim, 16)
