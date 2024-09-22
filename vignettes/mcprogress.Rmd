@@ -18,6 +18,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE
 )
+library(parallel)
 ```
 
 # Installation
@@ -41,6 +42,7 @@ console in Rstudio or Linux environments. Simply replace your original call to
 `mclapply()` with `pmclapply()`.
 
 ```{r eval=FALSE}
+library(parallel)
 library(mcprogress)
 
 # toy example
@@ -155,6 +157,63 @@ longfun <- function(x, cores) {
 output <- longfun(letters[1:2], cores = 2)
 ```
 
+# Printing from parallel code
+
 The package also includes functions to safely print messages (including error
 messages) from within parallelised code. These can be very useful for debugging
 parallel R code.
+
+```{r eval=FALSE}
+res <- mclapply(1:5, function(i) {
+  Sys.sleep(runif(1) /10)
+  message_parallel("Process ", i, " done")
+  rnorm(1)
+})
+## Process 1 done
+## Process 3 done
+## Process 2 done
+## Process 5 done
+## Process 4 done
+```
+
+If errors occur during parallel processing, `mclapply` generates a nondescript
+warning "all scheduled cores encountered errors in user code". One option is to
+set `mc.cores = 1`. This will often reveal the error message, but can be slow if
+computation is long and the error occurs only half way through.
+
+```{r}
+out <- mclapply(1:5, function(i) {
+  rnorm(-1)
+}, mc.cores = 2)  # change mc.cores = 1 to reveal error message
+```
+
+The function `catchError()` enables an expression to be wrapped in `try()` so
+that code is executed and if an error message is produced it is printed to the
+console to be more visible. If no error is generated the usual of the expression
+is returned. This allows you to write your code as usual. It can more easily be
+utilised using the pipe `|>`. Additional arguments can be provided to track
+values so that the programmer can more easily find out when the error occurs.
+
+```{r eval=FALSE}
+out <- mclapply(1:5, function(i) {
+  j = 4 + i
+  rnorm(-1) |> catchError(i, j)
+}, mc.cores = 2)
+## Error in rnorm(-1) : invalid arguments
+## i=1, j=5
+## Error in rnorm(-1) : invalid arguments
+## i=2, j=6
+```
+
+The function `mcstop()` allows programmers to generate visible error messages
+during parellel code.
+
+```{r eval=FALSE}
+res <- mclapply(1:5, function(i) {
+  Sys.sleep(runif(1) /10)
+  if (i == 5) mcstop("My error message")
+  rnorm(1)
+})
+## My error message
+```
+

@@ -2,7 +2,7 @@
 % Please edit documentation in R/cat_parallel.R
 \name{mcstop}
 \alias{mcstop}
-\title{Stop and print message during parallel processing}
+\title{Stop and print error message during parallel processing}
 \usage{
 mcstop(...)
 }

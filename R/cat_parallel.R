@@ -29,7 +29,8 @@ over_parallel <- function(...) {
   system(sprintf('echo "%s', p))
 }
 
-#' Stop and print message during parallel processing
+
+#' Stop and print error message during parallel processing
 #' 
 #' `mcstop` is a multicore version of `stop` which prints to the console using
 #' `echo` during parallel commands such as [mclapply()], to allow error messages
@@ -40,6 +41,29 @@ over_parallel <- function(...) {
 #' @return Prints an error message.
 #' @export
 mcstop <- function(...) {
-  system(sprintf('echo "%s"', paste0('\\nError: ', ..., collapse = "")))
+  system(sprintf('echo "%s"', paste0(..., collapse = "")))
   stop(...)
+}
+
+
+#' Catch error messages during parallel processing
+#' 
+#' Allows an expression to be wrapped in [try()] to catch error messages. Any
+#' error messages are printed to the console using [mcstop()].
+#' 
+#' @param expr An expression to be wrapped in [try()] to allow execution and
+#'   catch error messages.
+#' @param ... Optional objects to be tracked if you want to know state of
+#'   objects at the point error messages are generated.
+#' @return Prints error messages during parallel processing. If there is no
+#'   error, the result of the evaluated expression is returned.
+#' @seealso [mcstop()]
+#' @export
+catchError <- function(expr, ...) {
+  out <- try(expr, silent = TRUE)
+  if (!inherits(out, "try-error")) return(out)
+  call <- match.call(expand.dots = TRUE)
+  dots <- list(...)
+  labs <- call[-c(1:2)]
+  mcstop(c(out[1], paste(paste(labs, dots, sep = "="), collapse = ", ")))
 }
