@@ -106,7 +106,7 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   if (eta) width <- width - 2L
   if (is.null(subval)) {
     if (len / cores > 200) {
-      cores <- cores * floor(len / cores / 100)  # reduce sampling
+      cores <- cores * round(len / cores / 100)  # reduce sampling
     }
     if (val %% cores != 0) return(if (spinner) mcSpinner(val, title))
     nb <- round(width * val / len)
