@@ -180,10 +180,12 @@ warning "all scheduled cores encountered errors in user code". One option is to
 set `mc.cores = 1`. This will often reveal the error message, but can be slow if
 computation is long and the error occurs only half way through.
 
-```{r}
+```{r eval=FALSE}
 out <- mclapply(1:5, function(i) {
   rnorm(-1)
-}, mc.cores = 2)  # change mc.cores = 1 to reveal error message
+}, mc.cores = 2)  # change mc.cores = 1 to reveal actual error message
+## Warning in mclapply(1:5, function(i) {: all scheduled cores encountered errors
+## in user code
 ```
 
 The function `catchError()` enables an expression to be wrapped in `try()` so
