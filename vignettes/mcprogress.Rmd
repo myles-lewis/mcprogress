@@ -101,8 +101,6 @@ In the next example, we build a custom function showing how to use
 function which can report subprogress.
 
 ```{r eval=FALSE}
-library(parallel)
-
 my_fun <- function(x, cores) {
   start <- Sys.time()
   mcProgressBar(0, title = "my_fun")  # initialise progress bar
