@@ -13,7 +13,8 @@ mcProgressBar(
   title = "",
   spinner = FALSE,
   eta = TRUE,
-  start = NULL
+  start = NULL,
+  sensitivity = 0.01
 )
 
 closeProgress(start = NULL, title = "", eta = FALSE)
@@ -41,6 +42,10 @@ estimate the time to completion.}
 
 \item{start}{Used to pass the system time from the start of the call to show
 a total time elapsed. See the example below.}
+
+\item{sensitivity}{Determines maximum sensitivity with which to report
+progress for situations where \code{len} is large, to reduce overhead. Default
+0.01 refers to 1\%. Not used if \code{subval} is invoked.}
 }
 \value{
 No return value. Prints a progress bar to the console if called

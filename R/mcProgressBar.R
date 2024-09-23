@@ -43,6 +43,9 @@
 #'   estimate the time to completion.
 #' @param start Used to pass the system time from the start of the call to show
 #'   a total time elapsed. See the example below.
+#' @param sensitivity Determines maximum sensitivity with which to report
+#'   progress for situations where `len` is large, to reduce overhead. Default
+#'   0.01 refers to 1%. Not used if `subval` is invoked.
 #' @returns No return value. Prints a progress bar to the console if called
 #'   within the Rstudio environment.
 #' @seealso [pmclapply()] [mclapply()]
@@ -100,13 +103,14 @@
 #' @export
 
 mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
-                          spinner = FALSE, eta = TRUE, start = NULL) {
+                          spinner = FALSE, eta = TRUE, start = NULL,
+                          sensitivity = 0.01) {
   width <- getOption("width") - 22L - nchar(title)
   tim <- ""
   if (eta) width <- width - 2L
   if (is.null(subval)) {
-    if (len / cores >= 192) {
-      cores <- cores * floor(len / cores / 96)  # reduce sampling
+    if (len / cores >= 2/sensitivity) {
+      cores <- cores * floor(len / cores * sensitivity)  # reduce sampling
     }
     if (val %% cores != 0) return(if (spinner) mcSpinner(val, title))
     nb <- round(width * val / len)
