@@ -112,7 +112,7 @@ my_fun <- function(x, cores) {
     inner <- lapply(seq_along(y), function(j) {
       Sys.sleep(0.2 + runif(1) * 0.1)
       mcProgressBar(val = i, len = length(x), cores, subval = j / length(y),
-                    title = "my_fun")
+                    title = "my_fun", start = start)
       rnorm(4)
     })
     inner
@@ -137,15 +137,15 @@ longfun <- function(x, cores) {
   
   res <- mclapply(seq_along(x), function(i) {
     # long sequential calculation in parallel with 3 major steps
-    Sys.sleep(0.2)
+    Sys.sleep(0.5)
     mcProgressBar(val = i, len = length(x), cores, subval = 0.33,
-                  title = "longfun")  # 33% complete
-    Sys.sleep(0.2)
+                  title = "longfun", start = start)  # 33% complete
+    Sys.sleep(0.5)
     mcProgressBar(val = i, len = length(x), cores, subval = 0.66,
-                  title = "longfun")  # 66% complete
-    Sys.sleep(0.2)
+                  title = "longfun", start = start)  # 66% complete
+    Sys.sleep(0.5)
     mcProgressBar(val = i, len = length(x), cores, subval = 1,
-                  title = "longfun")  # 100% complete
+                  title = "longfun", start = start)  # 100% complete
     return(rnorm(4))
   }, mc.cores = cores)
   
