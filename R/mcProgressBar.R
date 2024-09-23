@@ -109,7 +109,6 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
                           sensitivity = 0.01) {
   width <- getOption("width") - 22L - nchar(title)
   tim <- ""
-  if (eta) width <- width - 2L
   if (is.null(subval)) {
     if (len / cores >= 2/sensitivity) {
       cores <- cores * floor(len / cores * sensitivity)  # reduce sampling
@@ -143,10 +142,10 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
     if (dur < 0.5 && pc != 100) return()  # reduce sampling
     rem <- format_dur((1 - val2) / val2 * dur)
     tim <- if (val2 != 1) paste("  eta", rem) else ""
-    tim <- str_pad(tim, 16)
+    tim <- str_pad(tim, 15)
   }
   if (pc > 100) mcstop("impossible percent progress")
-  if (title != "") title <- paste0(title, " ")
+  if (spinner && title != "") title <- paste0(title, " ")
   
   # standard
   p <- paste(c(title, sp, "|", rep.int("=", nb), rep.int(" ", width - nb),
@@ -165,12 +164,12 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
 
 #' @rdname mcProgressBar
 #' @export
-closeProgress <- function(start = NULL, title = "", eta = FALSE) {
+closeProgress <- function(start = NULL, title = "", eta = TRUE) {
   end <- Sys.time()
   mcProgressBar(1, title = title, eta = eta)
   if (!is.null(start)) {
     p <- paste0("  (", format(end - start, digits = 3), ")")
-    if (eta) p <- str_pad(p, 16)
+    if (eta) p <- str_pad(p, 15)
     message_parallel(p)
   }
 }
