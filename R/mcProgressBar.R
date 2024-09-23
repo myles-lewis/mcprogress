@@ -148,14 +148,14 @@ mcProgressBar <- function(val, len = 1L, cores = 1L, subval = NULL, title = "",
   if (spinner && title != "") title <- paste0(title, " ")
   
   # standard
-  p <- paste(c(title, sp, "|", rep.int("=", nb), rep.int(" ", width - nb),
+  p <- paste(c(title, sp, "|", strrep("=", nb), strrep(" ", width - nb),
                sprintf("| %3d%%", pc), tim), collapse = "")
   if (Sys.getenv("RSTUDIO") == "1" && rstudioapi::isAvailable()) {
     if (rstudioapi::getThemeInfo()$dark) {
       # colour
       if (tim != "") tim <- paste0("\\x1b[32m", tim, "\\x1b[37m")
-      p <- paste(c("\\x1b[37m", title, sp, "|\\x1b[36m", rep.int("=", nb),
-                   rep.int(" ", width - nb),
+      p <- paste(c("\\x1b[37m", title, sp, "|\\x1b[36m", strrep("=", nb),
+                   strrep(" ", width - nb),
                    sprintf("\\x1b[37m| %3d%%", pc), tim), collapse = "")
     }
   }
