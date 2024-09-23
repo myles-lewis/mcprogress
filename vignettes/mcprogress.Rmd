@@ -156,6 +156,32 @@ longfun <- function(x, cores) {
 output <- longfun(letters[1:2], cores = 2)
 ```
 
+## foreach
+
+The `mcProgressBar` function can be used with the `foreach` package and the
+`doMC` package multicore backend to show a progress bar.
+
+```{r eval=FALSE}
+# Example from doMC vignette
+library(doMC)
+library(foreach)
+registerDoMC(4)
+
+x <- iris[which(iris[,5] != "setosa"), c(1,5)]
+trials <- 10000
+
+{
+  start <- Sys.time()
+  r <- foreach(i = seq_len(trials), .combine = cbind) %dopar% {
+    ind <- sample(100, 100, replace = TRUE)
+    result1 <- glm(x[ind, 2] ~ x[ind, 1], family = binomial(logit))
+    mcProgressBar(i, trials, cores = getDoParWorkers(), start = start)
+    coefficients(result1)
+  }
+  closeProgress(start)
+}
+```
+
 # Printing from parallel code
 
 The package also includes functions to safely print messages (including error

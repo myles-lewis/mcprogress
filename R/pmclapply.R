@@ -11,7 +11,9 @@
 #' processes move along in blocks as determined by `mc.cores`. To track
 #' progress, `pmclapply` only tracks the nth process, where n=`mc.cores`. For
 #' example, with 4 cores, `pmclapply` reports progress when the 4th, 8th, 12th,
-#' 16th etc process has completed.
+#' 16th etc process has completed. If the length of `X` is very large (e.g. in
+#' the 1000s), then the progress bar will only update for each 1% of progress in
+#' order to reduce overhead.
 #' 
 #' However, in some scenarios the length of `X` is comparable to the number of
 #' cores and each process may take a long time. For example, machine learning

@@ -62,7 +62,9 @@ in a block and most code for each process completes at roughly the same time,
 processes move along in blocks as determined by \code{mc.cores}. To track
 progress, \code{pmclapply} only tracks the nth process, where n=\code{mc.cores}. For
 example, with 4 cores, \code{pmclapply} reports progress when the 4th, 8th, 12th,
-16th etc process has completed.
+16th etc process has completed. If the length of \code{X} is very large (e.g. in
+the 1000s), then the progress bar will only update for each 1\% of progress in
+order to reduce overhead.
 
 However, in some scenarios the length of \code{X} is comparable to the number of
 cores and each process may take a long time. For example, machine learning
