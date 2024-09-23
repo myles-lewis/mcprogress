@@ -17,7 +17,7 @@ mcProgressBar(
   sensitivity = 0.01
 )
 
-closeProgress(start = NULL, title = "", eta = FALSE)
+closeProgress(start = NULL, title = "", eta = TRUE)
 }
 \arguments{
 \item{val}{Integer measuring progress}
