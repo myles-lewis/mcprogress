@@ -136,7 +136,7 @@ longfun <- function(x, cores) {
   mcProgressBar(0, title = "longfun")  # initialise progress bar
   
   res <- mclapply(seq_along(x), function(i) {
-    # long sequential calculation in parallel with 3 major steps
+    # long sequential calculation in parallel with 3 major steps applied to x[i]
     Sys.sleep(0.5)
     mcProgressBar(val = i, len = length(x), cores, subval = 0.33,
                   title = "longfun", start = start)  # 33% complete
@@ -180,6 +180,13 @@ trials <- 10000
   }
   closeProgress(start)
 }
+
+# Equivalent using pmclapply
+r <- pmclapply(seq_len(trials), function(i) {
+  ind <- sample(100, 100, replace = TRUE)
+  result1 <- glm(x[ind, 2] ~ x[ind, 1], family = binomial(logit))
+  coefficients(result1)
+}, mc.cores = 4)
 ```
 
 # Printing from parallel code
