@@ -8,7 +8,7 @@ mcstop(...)
 }
 \arguments{
 \item{...}{Objects coerced to character and pasted together and printed to
-the console using 'echo'.}
+the console using \code{echo}.}
 }
 \value{
 Prints an error message.

@@ -1,7 +1,7 @@
 
 #' Show progress bar during parallel processing 
 #' 
-#' Uses 'echo' to safely output a progress bar to Rstudio or Linux console
+#' Uses `echo` to safely output a progress bar to Rstudio or Linux console
 #' during parallel processing.
 #' 
 #' This package provides 2 main methods to show progress during parallelised
@@ -49,7 +49,7 @@
 #'   progress for situations where `len` is large, to reduce overhead. Default
 #'   0.01 refers to 1%. Not used if `subval` is invoked.
 #' @returns No return value. Prints a progress bar to the console if called
-#'   within the Rstudio environment.
+#'   within an Rstudio or Linux environment.
 #' @seealso [pmclapply()] [mclapply()]
 #' @author Myles Lewis
 #' @examples

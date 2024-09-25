@@ -2,7 +2,7 @@
 
 #' Versions of [cat()] and [message()] for parallel processing
 #' 
-#' Prints messages to the console using 'echo' during to enable messages to be
+#' Prints messages to the console using `echo` during to enable messages to be
 #' printed during parallel processing. Text is only printed if the Rstudio
 #' environment is detected.
 #' 
@@ -37,7 +37,7 @@ over_parallel <- function(...) {
 #' messages to be more visible.
 #' 
 #' @param ... Objects coerced to character and pasted together and printed to
-#'   the console using 'echo'.
+#'   the console using `echo`.
 #' @return Prints an error message.
 #' @export
 mcstop <- function(...) {

@@ -51,10 +51,10 @@ progress for situations where \code{len} is large, to reduce overhead. Default
 }
 \value{
 No return value. Prints a progress bar to the console if called
-within the Rstudio environment.
+within an Rstudio or Linux environment.
 }
 \description{
-Uses 'echo' to safely output a progress bar to Rstudio or Linux console
+Uses \code{echo} to safely output a progress bar to Rstudio or Linux console
 during parallel processing.
 }
 \details{

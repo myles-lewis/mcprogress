@@ -18,7 +18,7 @@ Prints a message to the console. \code{cat_parallel()} uses no line feed,
 while \code{message_parallel()} always adds a newline.
 }
 \description{
-Prints messages to the console using 'echo' during to enable messages to be
+Prints messages to the console using \code{echo} during to enable messages to be
 printed during parallel processing. Text is only printed if the Rstudio
 environment is detected.
 }
