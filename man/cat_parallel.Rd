@@ -3,7 +3,7 @@
 \name{cat_parallel}
 \alias{cat_parallel}
 \alias{message_parallel}
-\title{Versions of \code{cat} and \code{message} for parallel processing}
+\title{Versions of \code{\link[=cat]{cat()}} and \code{\link[=message]{message()}} for parallel processing}
 \usage{
 cat_parallel(...)
 
@@ -14,11 +14,11 @@ message_parallel(...)
 are pasted together.}
 }
 \value{
-Prints a message to the console. \code{cat_parallel} uses no line feed,
-while \code{message_parallel} always adds a newline.
+Prints a message to the console. \code{cat_parallel()} uses no line feed,
+while \code{message_parallel()} always adds a newline.
 }
 \description{
-Prints messages to the console using \code{echo} during to enable messages to be
+Prints messages to the console using 'echo' during to enable messages to be
 printed during parallel processing. Text is only printed if the Rstudio
 environment is detected.
 }

@@ -1,24 +1,24 @@
 
 #' Show progress bar during parallel processing 
 #' 
-#' Uses `echo` to safely output a progress bar to Rstudio or Linux console
+#' Uses 'echo' to safely output a progress bar to Rstudio or Linux console
 #' during parallel processing.
 #' 
 #' This package provides 2 main methods to show progress during parallelised
 #' code using [mclapply()]. If `X` (the list object looped over in a call to
-#' `mclapply`) has many elements compared to the number of cores, then it is
+#' [mclapply()]) has many elements compared to the number of cores, then it is
 #' easiest to use [pmclapply()]. However, in some use cases the length of `X` is
 #' comparable to the number of cores and each process may take a long time. For
 #' example, machine learning applied to each of 8 folds on an 8-core machine
 #' will open 8 processes from the outset. Each process will often complete at
-#' roughly the same time. In this case `pmclapply` is much less informative as
+#' roughly the same time. In this case [pmclapply()] is much less informative as
 #' it only shows completion at the end of 1 round of processes so it will go
 #' from 0% to 100%. In this example, if each process code is long and
 #' subprogress can be reported along the way, for example during nested loops,
-#' then `mcProgressBar` provides a way to show the subprogress during the inner
-#' loop. The example below shows how to write code involving an outer call to
-#' `mclapply` and an inner loop whose subprogress is tracked via calls to
-#' `mcProgressBar`.
+#' then `mcProgressBar()` provides a way to show the subprogress during the
+#' inner loop. The example below shows how to write code involving an outer call
+#' to [mclapply()] and an inner loop whose subprogress is tracked via calls to
+#' `mcProgressBar()`.
 #' 
 #' Technically only 1 process can be tracked. If `cores` is set to 4 and
 #' `subval` is invoked, then the 1st, 5th, 9th, 13th etc process is tracked.
@@ -41,7 +41,7 @@
 #'   `subval` is used. Can add significant overhead is `len` is large and each
 #'   process is very fast.
 #' @param eta Logical whether to show estimated time to completion. `start`
-#'   system time must be supplied with each call to `mcProgressbar` in order to
+#'   system time must be supplied with each call to `mcProgressbar()` in order to
 #'   estimate the time to completion.
 #' @param start Used to pass the system time from the start of the call to show
 #'   a total time elapsed. See the example below.
@@ -202,7 +202,7 @@ format_dur <- function(x) {
 
 str_pad <- function(x, n) {
   nc <- nchar(x)
-  if (nc < n) x <- paste(c(x, rep.int(" ", n - nc)), collapse = "")
+  if (nc < n) x <- paste0(x, strrep(" ", n - nc))
   x
 }
 

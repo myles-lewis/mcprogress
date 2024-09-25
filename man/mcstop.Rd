@@ -8,13 +8,13 @@ mcstop(...)
 }
 \arguments{
 \item{...}{Objects coerced to character and pasted together and printed to
-the console using \code{echo}.}
+the console using 'echo'.}
 }
 \value{
 Prints an error message.
 }
 \description{
-\code{mcstop} is a multicore version of \code{stop} which prints to the console using
-\code{echo} during parallel commands such as \code{\link[=mclapply]{mclapply()}}, to allow error messages
-to be more visible.
+\code{mcstop()} is a multicore version of \code{\link[=stop]{stop()}} which prints to the console
+using 'echo' during parallel commands such as \code{\link[=mclapply]{mclapply()}}, to allow error
+messages to be more visible.
 }

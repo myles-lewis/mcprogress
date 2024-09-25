@@ -39,7 +39,7 @@ length of time for each process to complete is variable. Not shown if
 process is very fast.}
 
 \item{eta}{Logical whether to show estimated time to completion. \code{start}
-system time must be supplied with each call to \code{mcProgressbar} in order to
+system time must be supplied with each call to \code{mcProgressbar()} in order to
 estimate the time to completion.}
 
 \item{start}{Used to pass the system time from the start of the call to show
@@ -54,25 +54,25 @@ No return value. Prints a progress bar to the console if called
 within the Rstudio environment.
 }
 \description{
-Uses \code{echo} to safely output a progress bar to Rstudio or Linux console
+Uses 'echo' to safely output a progress bar to Rstudio or Linux console
 during parallel processing.
 }
 \details{
 This package provides 2 main methods to show progress during parallelised
 code using \code{\link[=mclapply]{mclapply()}}. If \code{X} (the list object looped over in a call to
-\code{mclapply}) has many elements compared to the number of cores, then it is
+\code{\link[=mclapply]{mclapply()}}) has many elements compared to the number of cores, then it is
 easiest to use \code{\link[=pmclapply]{pmclapply()}}. However, in some use cases the length of \code{X} is
 comparable to the number of cores and each process may take a long time. For
 example, machine learning applied to each of 8 folds on an 8-core machine
 will open 8 processes from the outset. Each process will often complete at
-roughly the same time. In this case \code{pmclapply} is much less informative as
+roughly the same time. In this case \code{\link[=pmclapply]{pmclapply()}} is much less informative as
 it only shows completion at the end of 1 round of processes so it will go
 from 0\% to 100\%. In this example, if each process code is long and
 subprogress can be reported along the way, for example during nested loops,
-then \code{mcProgressBar} provides a way to show the subprogress during the inner
-loop. The example below shows how to write code involving an outer call to
-\code{mclapply} and an inner loop whose subprogress is tracked via calls to
-\code{mcProgressBar}.
+then \code{mcProgressBar()} provides a way to show the subprogress during the
+inner loop. The example below shows how to write code involving an outer call
+to \code{\link[=mclapply]{mclapply()}} and an inner loop whose subprogress is tracked via calls to
+\code{mcProgressBar()}.
 
 Technically only 1 process can be tracked. If \code{cores} is set to 4 and
 \code{subval} is invoked, then the 1st, 5th, 9th, 13th etc process is tracked.
