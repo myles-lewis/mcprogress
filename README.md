@@ -1,5 +1,9 @@
 # mcprogress
 
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/mcprogress)](https://CRAN.R-project.org/package=mcprogress)
+<!-- badges: end -->
+
 Adds a progress bar to `mclapply()` using `echo` to output to the console in 
 Rstudio or Linux environments. Simply replace your original call to `mclapply()`
 with `pmclapply()`.
